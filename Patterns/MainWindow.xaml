@@ -1,0 +1,96 @@
+﻿<Window x:Class="Patterns.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Patterns.ViewModel"
+        
+      
+        mc:Ignorable="d"
+        Title="MainWindow" Height="580" Width="930"
+        x:Name="Patterns"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="none"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        AllowsTransparency="True">
+    <Grid>
+        <!--setting the datacontext(binding source)-->
+        <Grid.DataContext>
+            <vm:NavigationViewModel/>
+        </Grid.DataContext>
+
+        <!--background border-->
+        <Border Background="#ECF0F1" CornerRadius="10"/>
+        <!--Header-->
+        <Border Background="#5C5C5C" VerticalAlignment="Top" HorizontalAlignment="Left" CornerRadius="10,0,100,0"
+                Height="80" Width="850">
+            <TextBlock Text="P A T T E R N S " Style="{StaticResource HeaderStyle}"/>
+        </Border>
+
+        <!--Footer-->
+        <Border Background="#5C5C5C" VerticalAlignment="Bottom" HorizontalAlignment="Right" CornerRadius="100,0,10,0"
+                Height="80" Width="850">
+            <TextBlock Text="I M E C A R " Style="{StaticResource FooterStyle}"/>
+        </Border>
+
+        <!--Content Background-->
+        <Border Background="#303030" BorderBrush="#FFFF" BorderThickness="0,5,0,5" Height="480" Margin="0,10,0,0"
+                CornerRadius="25"/>
+        <!--Content grid-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="660"/>
+                <ColumnDefinition Width="25"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="370"/>
+                <RowDefinition Height="0"/>
+            </Grid.RowDefinitions>
+
+            <!--Menu Search Box-->
+            <Grid Grid.Row="2" Grid.Column="1">
+                <TextBox x:Name="SearchBox" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource SearchBoxStyle}"/>
+                <TextBlock Text="Search" Style="{StaticResource SearchTextStyle}"/>
+            </Grid>
+            <!--Menu-->
+            <Grid Grid.Row="3" Grid.Column="1" Margin="0,10,0,0">
+                <ItemsControl ItemsSource="{Binding SourceCollection}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <MenuItem>
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="Assets/home.png" Width="16" Height="16"/>
+                                        <TextBlock Text="{Binding MenuName}" />
+                                    </StackPanel>
+                                </MenuItem.Header>
+                                <!-- Alt menüler buraya eklenebilir -->
+                                <MenuItem.ItemsSource>
+                                    <Binding Path="SubMenuItems"/>
+                                </MenuItem.ItemsSource>
+                                <MenuItem.ItemTemplate>
+                                    <DataTemplate>
+                                        <MenuItem Header="{Binding SubMenuName}"/>
+                                    </DataTemplate>
+                                </MenuItem.ItemTemplate>
+                            </MenuItem>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+
+
+
+
+
+        </Grid>
+    </Grid>
+</Window>
